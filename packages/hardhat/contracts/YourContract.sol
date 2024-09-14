@@ -19,6 +19,9 @@ contract YourContract {
 	bool public premium = false;
 	uint256 public totalCounter = 0;
 	mapping(address => uint) public userGreetingCounter;
+	mapping(address => uint) public userNumbers;
+	// Mapping from address to number
+	event NumberUpdated(address indexed user, uint number);
 
 	// Events: a way to emit log statements from smart contract that can be listened to by external parties
 	event GreetingChange(
@@ -70,6 +73,13 @@ contract YourContract {
 		// emit: keyword used to trigger an event
 		emit GreetingChange(msg.sender, _newGreeting, msg.value > 0, msg.value);
 	}
+
+	// Function to store a number
+	function storeNumber(uint _number) public {
+		userNumbers[msg.sender] = _number;
+		emit NumberUpdated(msg.sender, _number);
+	}
+
 
 	/**
 	 * Function that allows the owner to withdraw all the Ether in the contract
